@@ -1,15 +1,12 @@
 package main
 
 import (
-	"bufio"
+	"aoc2024/shared"
 	"fmt"
-	"os"
-	"strconv"
-	"strings"
 )
 
 func main() {
-	leftNumbers, rightNumbers := readFile()
+	leftNumbers, rightNumbers := shared.ReadFileNumbers("../resources/input.txt")
 	leftNumbers = mergeSort(leftNumbers)
 	rightNumbers = mergeSort(rightNumbers)
 
@@ -25,34 +22,6 @@ func main() {
 	}
 
 	fmt.Println(fmt.Sprintf("Result %d", sumOfDifferences)) // 1151792
-}
-
-func readFile() (leftNumbers []int, rightNumbers []int) {
-	f, err := os.Open("./input.txt")
-	if err != nil {
-		panic(err)
-	}
-	scanner := bufio.NewScanner(f)
-	var lineNumber = 0
-	for scanner.Scan() {
-		lineNumber = lineNumber + 1
-		line := scanner.Text()
-		parts := strings.Split(line, "   ")
-		if len(parts) != 2 {
-			panic(fmt.Sprintf("Unexpected amount of numbers on line %d", lineNumber))
-		}
-		leftNumber, err := strconv.Atoi(parts[0])
-		if err != nil {
-			panic(err)
-		}
-		rightNumber, err := strconv.Atoi(parts[1])
-		if err != nil {
-			panic(err)
-		}
-		leftNumbers = append(leftNumbers, leftNumber)
-		rightNumbers = append(rightNumbers, rightNumber)
-	}
-	return
 }
 
 func mergeSort(array []int) (sortedArray []int) {
