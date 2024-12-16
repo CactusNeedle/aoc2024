@@ -1,16 +1,26 @@
 package main
 
 import (
-	"aoc2024/shared"
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
 func main() {
-	leftNumbers, rightNumbers := shared.ReadFileNumbers("../resources/input.txt")
+	leftNumbers, rightNumbers := readFileNumbers()
 	leftNumbers = mergeSort(leftNumbers)
 	rightNumbers = mergeSort(rightNumbers)
 
-	sumOfDifferences := 0
+	sumOfDifferences := calculateSumOfDifferences(leftNumbers, rightNumbers)
+	fmt.Println(fmt.Sprintf("Sum of differences %d", sumOfDifferences)) // 1151792
+
+	similarityScore := calculateSimilarityScore(leftNumbers, rightNumbers)
+	fmt.Println(fmt.Sprintf("Similarity score %d", similarityScore)) //21790168
+}
+
+func calculateSumOfDifferences(leftNumbers []int, rightNumbers []int) (sumOfDifferences int) {
 	for i := 0; i < len(leftNumbers); i++ {
 		leftNumber := leftNumbers[i]
 		rightNumber := rightNumbers[i]
@@ -20,8 +30,47 @@ func main() {
 			sumOfDifferences = sumOfDifferences + (rightNumber - leftNumber)
 		}
 	}
+	return
+}
 
-	fmt.Println(fmt.Sprintf("Result %d", sumOfDifferences)) // 1151792
+func calculateSimilarityScore(leftNumbers []int, rightNumbers []int) (similarityScore int) {
+	rightNumbersCount := make(map[int]int)
+	for _, rightNumber := range rightNumbers {
+		rightNumbersCount[rightNumber] = rightNumbersCount[rightNumber] + 1
+	}
+
+	for _, leftNumber := range leftNumbers {
+		similarityScore = similarityScore + leftNumber*rightNumbersCount[leftNumber]
+	}
+	return
+}
+
+func readFileNumbers() (leftNumbers []int, rightNumbers []int) {
+	f, err := os.Open("./input.txt")
+	if err != nil {
+		panic(err)
+	}
+	scanner := bufio.NewScanner(f)
+	var lineNumber = 0
+	for scanner.Scan() {
+		lineNumber = lineNumber + 1
+		line := scanner.Text()
+		parts := strings.Split(line, "   ")
+		if len(parts) != 2 {
+			panic(fmt.Sprintf("Unexpected amount of numbers on line %d", lineNumber))
+		}
+		leftNumber, err := strconv.Atoi(parts[0])
+		if err != nil {
+			panic(err)
+		}
+		rightNumber, err := strconv.Atoi(parts[1])
+		if err != nil {
+			panic(err)
+		}
+		leftNumbers = append(leftNumbers, leftNumber)
+		rightNumbers = append(rightNumbers, rightNumber)
+	}
+	return
 }
 
 func mergeSort(array []int) (sortedArray []int) {
