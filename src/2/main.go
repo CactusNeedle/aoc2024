@@ -15,7 +15,7 @@ func main() {
 	fmt.Println(fmt.Sprintf("Number of safe reports: %d", safeReportCount)) // 670
 
 	safeReportWithOneRemovalCount := calculateSafeReportCountWithOneRemoval(reports)
-	fmt.Println(fmt.Sprintf("Number of safe reports with one removal: %d", safeReportWithOneRemovalCount)) //
+	fmt.Println(fmt.Sprintf("Number of safe reports with one removal: %d", safeReportWithOneRemovalCount)) // 700
 }
 
 func calculateSafeReportCountWithOneRemoval(reports [][]int) (count int) {
@@ -70,6 +70,7 @@ func readReports() (reports [][]int) {
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()

@@ -50,6 +50,7 @@ func readFileNumbers() (leftNumbers []int, rightNumbers []int) {
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
 	scanner := bufio.NewScanner(f)
 	var lineNumber = 0
 	for scanner.Scan() {
