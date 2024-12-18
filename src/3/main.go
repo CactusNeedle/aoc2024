@@ -14,7 +14,7 @@ func main() {
 	fmt.Println(fmt.Sprintf("Sum of multiplications: %d", sumOfMultiplications)) // 184576302
 
 	sumOfMultiplicationsWithDoAndDont := calculateSumOfMultiplicationsWithDoAndDont(characters)
-	fmt.Println(fmt.Sprintf("Sum of multiplications with do and don't: %d", sumOfMultiplicationsWithDoAndDont)) //
+	fmt.Println(fmt.Sprintf("Sum of multiplications with do and don't: %d", sumOfMultiplicationsWithDoAndDont)) // 118173507
 }
 
 func calculateSumOfMultiplications(characters []rune) (sumOfMultiplications int) {
