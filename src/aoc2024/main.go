@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aoc2024/bridgeRepair"
 	"aoc2024/ceresSearch"
 	"aoc2024/guardianGallivant"
 	"aoc2024/historianHysteria"
@@ -30,6 +31,8 @@ var options = []string{
 	"(Day 5 - Part 2) Print Queue",
 	"(Day 6 - Part 1) Guardian Gallivant",
 	"(Day 6 - Part 2) Guardian Gallivant",
+	"(Day 7 - Part 1) Bridge Repair",
+	"(Day 7 - Part 2) Bridge Repair",
 }
 
 func main() {
@@ -113,6 +116,10 @@ func runOption(option int) {
 		guardianGallivant.RunPartOne(progressUpdater, readFile("./guardianGallivant/input.txt")) // 4454
 	case 11:
 		guardianGallivant.RunPartTwo(progressUpdater, readFile("./guardianGallivant/input.txt")) // 1503
+	case 12:
+		bridgeRepair.RunPartOne(progressUpdater, readFile("./bridgeRepair/input.txt")) // 3245122495150
+	case 13:
+		bridgeRepair.RunPartTwo(progressUpdater, readFile("./bridgeRepair/input.txt")) // 105517128211543
 	}
 }
 
