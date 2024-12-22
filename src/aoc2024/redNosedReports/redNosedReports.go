@@ -1,46 +1,43 @@
-package main
+package redNosedReports
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func main() {
-	reports := readReports()
+func RunPartOne(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	reports := parseInput(input)
 
-	safeReportCount := calculateSafeReportCount(reports)
-	fmt.Println(fmt.Sprintf("Number of safe reports: %d", safeReportCount)) // 670
-
-	safeReportWithOneRemovalCount := calculateSafeReportCountWithOneRemoval(reports)
-	fmt.Println(fmt.Sprintf("Number of safe reports with one removal: %d", safeReportWithOneRemovalCount)) // 700
+	safeReportCount := 0
+	for i, report := range reports {
+		if isSafeReport(report) {
+			safeReportCount++
+		}
+		progressUpdater(float64(i)/float64(len(input)), safeReportCount)
+	}
+	progressUpdater(1, safeReportCount)
+	return
 }
 
-func calculateSafeReportCountWithOneRemoval(reports [][]int) (count int) {
-	for _, report := range reports {
+func RunPartTwo(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	reports := parseInput(input)
+
+	safeReportCount := 0
+	for i, report := range reports {
 		if isSafeReport(report) {
-			count++
+			safeReportCount++
 		} else {
 			for i := 0; i < len(report); i++ {
 				reportWithRemoval := append(append(make([]int, 0), report[:i]...), report[i+1:]...)
 				if isSafeReport(reportWithRemoval) {
-					count++
+					safeReportCount++
 					break
 				}
 			}
 		}
+		progressUpdater(float64(i)/float64(len(input)), safeReportCount)
 	}
-	return
-}
-
-func calculateSafeReportCount(reports [][]int) (count int) {
-	for _, report := range reports {
-		if isSafeReport(report) {
-			count++
-		}
-	}
+	progressUpdater(1, safeReportCount)
 	return
 }
 
@@ -65,15 +62,8 @@ func isSafeReport(report []int) bool {
 	return safe
 }
 
-func readReports() (reports [][]int) {
-	f, err := os.Open("./input.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		line := scanner.Text()
+func parseInput(input string) (reports [][]int) {
+	for _, line := range strings.Split(input, "\r\n") {
 		parts := strings.Split(line, " ")
 		report := make([]int, len(parts))
 		for partIndex, part := range parts {

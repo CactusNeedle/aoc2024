@@ -1,26 +1,16 @@
-package main
+package historianHysteria
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
 
-func main() {
-	leftNumbers, rightNumbers := readFileNumbers()
+func RunPartOne(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	leftNumbers, rightNumbers := parseInput(input)
 	leftNumbers = mergeSort(leftNumbers)
 	rightNumbers = mergeSort(rightNumbers)
 
-	sumOfDifferences := calculateSumOfDifferences(leftNumbers, rightNumbers)
-	fmt.Println(fmt.Sprintf("Sum of differences %d", sumOfDifferences)) // 1151792
-
-	similarityScore := calculateSimilarityScore(leftNumbers, rightNumbers)
-	fmt.Println(fmt.Sprintf("Similarity score %d", similarityScore)) //21790168
-}
-
-func calculateSumOfDifferences(leftNumbers []int, rightNumbers []int) (sumOfDifferences int) {
+	sumOfDifferences := 0
 	for i := 0; i < len(leftNumbers); i++ {
 		leftNumber := leftNumbers[i]
 		rightNumber := rightNumbers[i]
@@ -29,48 +19,29 @@ func calculateSumOfDifferences(leftNumbers []int, rightNumbers []int) (sumOfDiff
 		} else {
 			sumOfDifferences = sumOfDifferences + (rightNumber - leftNumber)
 		}
+		progressUpdater(float64(i)/float64(len(input)), sumOfDifferences)
 	}
+	progressUpdater(1, sumOfDifferences)
 	return
 }
 
-func calculateSimilarityScore(leftNumbers []int, rightNumbers []int) (similarityScore int) {
+func RunPartTwo(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	leftNumbers, rightNumbers := parseInput(input)
+	leftNumbers = mergeSort(leftNumbers)
+	rightNumbers = mergeSort(rightNumbers)
+
 	rightNumbersCount := make(map[int]int)
-	for _, rightNumber := range rightNumbers {
+	for i, rightNumber := range rightNumbers {
 		rightNumbersCount[rightNumber] = rightNumbersCount[rightNumber] + 1
+		progressUpdater(float64(i)/float64(len(input)*2), 0)
 	}
 
-	for _, leftNumber := range leftNumbers {
+	similarityScore := 0
+	for i, leftNumber := range leftNumbers {
 		similarityScore = similarityScore + leftNumber*rightNumbersCount[leftNumber]
+		progressUpdater(float64(len(input)+i)/float64(len(input)*2), similarityScore)
 	}
-	return
-}
-
-func readFileNumbers() (leftNumbers []int, rightNumbers []int) {
-	f, err := os.Open("./input.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-	scanner := bufio.NewScanner(f)
-	var lineNumber = 0
-	for scanner.Scan() {
-		lineNumber = lineNumber + 1
-		line := scanner.Text()
-		parts := strings.Split(line, "   ")
-		if len(parts) != 2 {
-			panic(fmt.Sprintf("Unexpected amount of numbers on line %d", lineNumber))
-		}
-		leftNumber, err := strconv.Atoi(parts[0])
-		if err != nil {
-			panic(err)
-		}
-		rightNumber, err := strconv.Atoi(parts[1])
-		if err != nil {
-			panic(err)
-		}
-		leftNumbers = append(leftNumbers, leftNumber)
-		rightNumbers = append(rightNumbers, rightNumber)
-	}
+	progressUpdater(1, similarityScore)
 	return
 }
 
@@ -105,6 +76,26 @@ func mergeSort(array []int) (sortedArray []int) {
 				subArray1Index++
 			}
 		}
+	}
+	return
+}
+
+func parseInput(input string) (leftNumbers []int, rightNumbers []int) {
+	for _, line := range strings.Split(input, "\r\n") {
+		parts := strings.Split(line, "   ")
+		if len(parts) != 2 {
+			panic("Invalid input")
+		}
+		leftNumber, err := strconv.Atoi(parts[0])
+		if err != nil {
+			panic(err)
+		}
+		rightNumber, err := strconv.Atoi(parts[1])
+		if err != nil {
+			panic(err)
+		}
+		leftNumbers = append(leftNumbers, leftNumber)
+		rightNumbers = append(rightNumbers, rightNumber)
 	}
 	return
 }

@@ -1,38 +1,39 @@
-package main
+package mullItOver
 
 import (
-	"fmt"
-	"io"
-	"os"
 	"strconv"
 )
 
-func main() {
-	characters := readCharacters()
+func RunPartOne(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	characters := parseInput(input)
 
-	sumOfMultiplications := calculateSumOfMultiplications(characters)
-	fmt.Println(fmt.Sprintf("Sum of multiplications: %d", sumOfMultiplications)) // 184576302
-
-	sumOfMultiplicationsWithDoAndDont := calculateSumOfMultiplicationsWithDoAndDont(characters)
-	fmt.Println(fmt.Sprintf("Sum of multiplications with do and don't: %d", sumOfMultiplicationsWithDoAndDont)) // 118173507
-}
-
-func calculateSumOfMultiplications(characters []rune) (sumOfMultiplications int) {
+	sumOfMultiplications := 0
 	for i := 0; i < len(characters); i++ {
 		processMulStart(characters, &i, &sumOfMultiplications)
+		if i%100 == 0 {
+			progressUpdater(float64(i)/float64(len(input)), sumOfMultiplications)
+		}
 	}
+	progressUpdater(1, sumOfMultiplications)
 	return
 }
 
-func calculateSumOfMultiplicationsWithDoAndDont(characters []rune) (sumOfMultiplications int) {
+func RunPartTwo(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	characters := parseInput(input)
+
 	do := true
+	sumOfMultiplications := 0
 	for i := 0; i < len(characters); i++ {
 		if do && characters[i] == 'm' {
 			processMulStart(characters, &i, &sumOfMultiplications)
 		} else if characters[i] == 'd' {
 			processDoOrDontStart(characters, &i, &do)
 		}
+		if i%100 == 0 {
+			progressUpdater(float64(i)/float64(len(input)), sumOfMultiplications)
+		}
 	}
+	progressUpdater(1, sumOfMultiplications)
 	return
 }
 
@@ -122,15 +123,6 @@ func findNumber(characters []rune, index *int) (number int, err any) {
 	return strconv.Atoi(numberString)
 }
 
-func readCharacters() []rune {
-	f, err := os.Open("./input.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-	data, err := io.ReadAll(f)
-	if err != nil {
-		panic(err)
-	}
-	return []rune(string(data))
+func parseInput(input string) []rune {
+	return []rune(input)
 }

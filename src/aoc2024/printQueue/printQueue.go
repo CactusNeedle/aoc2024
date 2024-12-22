@@ -1,39 +1,36 @@
-package main
+package printQueue
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"slices"
 	"strconv"
 	"strings"
 )
 
-func main() {
-	rules, updates := readInput()
+func RunPartOne(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	rules, updates := parseInput(input)
 
-	validUpdatesSum := getValidUpdatesSum(rules, updates)
-	fmt.Println(fmt.Sprintf("Valid updates sum: %d", validUpdatesSum)) // 5268
-
-	fixedUpdatesSum := getFixedUpdatesSum(rules, updates)
-	fmt.Println(fmt.Sprintf("Fixed updates sum: %d", fixedUpdatesSum)) // 5799
-}
-
-func getValidUpdatesSum(rules map[int][]int, updates [][]int) (sum int) {
-	for _, update := range updates {
+	sum := 0
+	for i, update := range updates {
 		if isValidUpdate(rules, update) {
 			sum = sum + update[(len(update)-1)/2]
 		}
+		progressUpdater(float64(i)/float64(len(updates)), sum)
 	}
+	progressUpdater(1, sum)
 	return
 }
 
-func getFixedUpdatesSum(rules map[int][]int, updates [][]int) (sum int) {
-	for _, update := range updates {
+func RunPartTwo(progressUpdater func(fraction float64, intermediaryResult int), input string) {
+	rules, updates := parseInput(input)
+
+	sum := 0
+	for i, update := range updates {
 		if !isValidUpdate(rules, update) {
 			sum = sum + createValidUpdate(rules, update)[(len(update)-1)/2]
 		}
+		progressUpdater(float64(i)/float64(len(updates)), sum)
 	}
+	progressUpdater(1, sum)
 	return
 }
 
@@ -62,17 +59,10 @@ func createValidUpdate(rules map[int][]int, update []int) (validUpdate []int) {
 	return
 }
 
-func readInput() (rules map[int][]int, updates [][]int) {
+func parseInput(input string) (rules map[int][]int, updates [][]int) {
 	rules = make(map[int][]int)
-	f, err := os.Open("./input.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-	scanner := bufio.NewScanner(f)
 	readingRules := true
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, line := range strings.Split(input, "\r\n") {
 		if line == "" {
 			readingRules = false
 		} else if readingRules {
