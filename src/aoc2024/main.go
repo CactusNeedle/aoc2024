@@ -3,6 +3,7 @@ package main
 import (
 	"aoc2024/bridgeRepair"
 	"aoc2024/ceresSearch"
+	"aoc2024/diskFragmenter"
 	"aoc2024/guardianGallivant"
 	"aoc2024/historianHysteria"
 	"aoc2024/mullItOver"
@@ -36,6 +37,8 @@ var options = []string{
 	"(Day 7 - Part 2) Bridge Repair",
 	"(Day 8 - Part 1) Resonant Collinearity",
 	"(Day 8 - Part 2) Resonant Collinearity",
+	"(Day 9 - Part 1) Disk Fragmenter",
+	"(Day 9 - Part 2) Disk Fragmenter",
 }
 
 func main() {
@@ -126,7 +129,11 @@ func runOption(option int) {
 	case 14:
 		resonantCollinearity.RunPartOne(progressUpdater, readFile("./resonantCollinearity/input.txt")) // 332
 	case 15:
-		resonantCollinearity.RunPartTwo(progressUpdater, readFile("./resonantCollinearity/input.txt")) // ????
+		resonantCollinearity.RunPartTwo(progressUpdater, readFile("./resonantCollinearity/input.txt")) // 1174
+	case 16:
+		diskFragmenter.RunPartOne(progressUpdater, readFile("./diskFragmenter/input.txt")) // 6283170117911
+	case 17:
+		diskFragmenter.RunPartTwo(progressUpdater, readFile("./diskFragmenter/input.txt")) // 6307653242596
 	}
 }
 
