@@ -8,6 +8,7 @@ import (
 	"aoc2024/mullItOver"
 	"aoc2024/printQueue"
 	"aoc2024/redNosedReports"
+	"aoc2024/resonantCollinearity"
 	"bufio"
 	"fmt"
 	"math"
@@ -33,6 +34,8 @@ var options = []string{
 	"(Day 6 - Part 2) Guardian Gallivant",
 	"(Day 7 - Part 1) Bridge Repair",
 	"(Day 7 - Part 2) Bridge Repair",
+	"(Day 8 - Part 1) Resonant Collinearity",
+	"(Day 8 - Part 2) Resonant Collinearity",
 }
 
 func main() {
@@ -120,6 +123,10 @@ func runOption(option int) {
 		bridgeRepair.RunPartOne(progressUpdater, readFile("./bridgeRepair/input.txt")) // 3245122495150
 	case 13:
 		bridgeRepair.RunPartTwo(progressUpdater, readFile("./bridgeRepair/input.txt")) // 105517128211543
+	case 14:
+		resonantCollinearity.RunPartOne(progressUpdater, readFile("./resonantCollinearity/input.txt")) // 332
+	case 15:
+		resonantCollinearity.RunPartTwo(progressUpdater, readFile("./resonantCollinearity/input.txt")) // ????
 	}
 }
 

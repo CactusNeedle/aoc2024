@@ -1,77 +1,41 @@
 package ceresSearch
 
 import (
+	"aoc2024/lib"
 	"strings"
 )
 
 func RunPartOne(progressUpdater func(fraction float64, intermediaryResult int), input string) {
 	grid := parseInput(input)
-
 	count := 0
-	for row := 0; row < len(grid); row++ {
-		currentPartialMatch := ""
-		for col := 0; col < len(grid); col++ {
-			processPotentialMatch(&currentPartialMatch, &count, grid[row][col])
+	currentPartialMatch := ""
+
+	processor := func(row int, col int, reset bool) {
+		if reset {
+			currentPartialMatch = ""
 		}
-		progressUpdater(float64(row)/float64(len(grid)*6), count)
+		processPotentialMatch(&currentPartialMatch, &count, grid[row][col])
 	}
-	for col := 0; col < len(grid); col++ {
-		currentPartialMatch := ""
-		for row := 0; row < len(grid); row++ {
-			processPotentialMatch(&currentPartialMatch, &count, grid[row][col])
-		}
-		progressUpdater((float64(len(grid))+float64(col))/float64(len(grid)*6), count)
-	}
-	for startRow := 0; startRow < len(grid); startRow++ {
-		currentPartialMatch := ""
-		for currentRow := startRow; currentRow >= 0; currentRow-- {
-			processPotentialMatch(&currentPartialMatch, &count, grid[currentRow][startRow-currentRow])
-		}
-		progressUpdater((float64(2*len(grid))+float64(startRow))/float64(len(grid)*6), count)
-	}
-	for startRow := len(grid) - 1; startRow >= 0; startRow-- {
-		currentPartialMatch := ""
-		for currentRow := startRow; currentRow < len(grid); currentRow++ {
-			processPotentialMatch(&currentPartialMatch, &count, grid[currentRow][currentRow-startRow])
-		}
-		progressUpdater((float64(3*len(grid))+float64(startRow))/float64(len(grid)*6), count)
-	}
-	for startCol := len(grid) - 1; startCol > 0; startCol-- {
-		currentPartialMatch := ""
-		for currentCol := startCol; currentCol < len(grid); currentCol++ {
-			processPotentialMatch(&currentPartialMatch, &count, grid[currentCol-startCol][currentCol])
-		}
-		progressUpdater((float64(4*len(grid))+float64(startCol))/float64(len(grid)*6), count)
-	}
-	for startCol := len(grid) - 1; startCol > 0; startCol-- {
-		currentPartialMatch := ""
-		for currentCol := startCol; currentCol < len(grid); currentCol++ {
-			processPotentialMatch(&currentPartialMatch, &count, grid[len(grid)+startCol-currentCol-1][currentCol])
-		}
-		progressUpdater((float64(5*len(grid))+float64(startCol))/float64(len(grid)*6), count)
-	}
+	lib.IterateRows(grid, processor)
+	lib.IterateCols(grid, processor)
+	lib.IterateDiagonalsSouthWestToNorthEast(grid, processor)
+	lib.IterateDiagonalsNorthWestToSouthEast(grid, processor)
 	progressUpdater(1, count)
 	return
 }
 
 func RunPartTwo(progressUpdater func(fraction float64, intermediaryResult int), input string) {
 	grid := parseInput(input)
-
 	count := 0
-	for startRow := 0; startRow < len(grid); startRow++ {
-		currentPartialMatch := ""
-		for currentRow := startRow; currentRow >= 0; currentRow-- {
-			processPotentialCrossMatch(grid, currentRow, startRow-currentRow, &currentPartialMatch, &count)
+	currentPartialMatch := ""
+
+	processor := func(row int, col int, reset bool) {
+		if reset {
+			currentPartialMatch = ""
 		}
-		progressUpdater(float64(startRow)/float64(len(grid)*2), count)
+		processPotentialCrossMatch(grid, row, col, &currentPartialMatch, &count)
 	}
-	for startCol := 1; startCol <= len(grid); startCol++ {
-		currentPartialMatch := ""
-		for currentCol := startCol; currentCol < len(grid); currentCol++ {
-			processPotentialCrossMatch(grid, len(grid)+startCol-currentCol-1, currentCol, &currentPartialMatch, &count)
-		}
-		progressUpdater((float64(len(grid))+float64(startCol))/float64(len(grid)*2), count)
-	}
+	lib.IterateDiagonalsSouthWestToNorthEast(grid, processor)
 	progressUpdater(1, count)
 	return
 }
