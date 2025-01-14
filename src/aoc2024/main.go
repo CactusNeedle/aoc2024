@@ -8,6 +8,7 @@ import (
 	"aoc2024/historianHysteria"
 	"aoc2024/hoofIt"
 	"aoc2024/mullItOver"
+	"aoc2024/plutonianPebbles"
 	"aoc2024/printQueue"
 	"aoc2024/redNosedReports"
 	"aoc2024/resonantCollinearity"
@@ -42,6 +43,8 @@ var options = []string{
 	"(Day 9 - Part 2) Disk Fragmenter",
 	"(Day 10 - Part 1) Hoof it",
 	"(Day 10 - Part 2) Hoof it",
+	"(Day 11 - Part 1) Plutonian Pebbles",
+	"(Day 11 - Part 2) Plutonian Pebbles",
 }
 
 func main() {
@@ -138,9 +141,13 @@ func runOption(option int) {
 	case 17:
 		diskFragmenter.RunPartTwo(progressUpdater, readFile("./diskFragmenter/input.txt")) // 6307653242596
 	case 18:
-		hoofIt.RunPartOne(progressUpdater, readFile("./hoofIt/input.txt")) //
+		hoofIt.RunPartOne(progressUpdater, readFile("./hoofIt/input.txt")) // 514
 	case 19:
-		hoofIt.RunPartTwo(progressUpdater, readFile("./hoofIt/input.txt")) //
+		hoofIt.RunPartTwo(progressUpdater, readFile("./hoofIt/input.txt")) // 1162
+	case 20:
+		plutonianPebbles.RunPartOne(progressUpdater, readFile("./plutonianPebbles/input.txt")) // 218079
+	case 21:
+		plutonianPebbles.RunPartTwo(progressUpdater, readFile("./plutonianPebbles/input.txt")) // 259755538429618
 	}
 }
 
