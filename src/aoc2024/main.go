@@ -6,6 +6,7 @@ import (
 	"aoc2024/diskFragmenter"
 	"aoc2024/guardianGallivant"
 	"aoc2024/historianHysteria"
+	"aoc2024/hoofIt"
 	"aoc2024/mullItOver"
 	"aoc2024/printQueue"
 	"aoc2024/redNosedReports"
@@ -39,6 +40,8 @@ var options = []string{
 	"(Day 8 - Part 2) Resonant Collinearity",
 	"(Day 9 - Part 1) Disk Fragmenter",
 	"(Day 9 - Part 2) Disk Fragmenter",
+	"(Day 10 - Part 1) Hoof it",
+	"(Day 10 - Part 2) Hoof it",
 }
 
 func main() {
@@ -134,6 +137,10 @@ func runOption(option int) {
 		diskFragmenter.RunPartOne(progressUpdater, readFile("./diskFragmenter/input.txt")) // 6283170117911
 	case 17:
 		diskFragmenter.RunPartTwo(progressUpdater, readFile("./diskFragmenter/input.txt")) // 6307653242596
+	case 18:
+		hoofIt.RunPartOne(progressUpdater, readFile("./hoofIt/input.txt")) //
+	case 19:
+		hoofIt.RunPartTwo(progressUpdater, readFile("./hoofIt/input.txt")) //
 	}
 }
 
