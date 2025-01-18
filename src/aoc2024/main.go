@@ -4,6 +4,7 @@ import (
 	"aoc2024/bridgeRepair"
 	"aoc2024/ceresSearch"
 	"aoc2024/diskFragmenter"
+	"aoc2024/gardenGroups"
 	"aoc2024/guardianGallivant"
 	"aoc2024/historianHysteria"
 	"aoc2024/hoofIt"
@@ -45,6 +46,8 @@ var options = []string{
 	"(Day 10 - Part 2) Hoof it",
 	"(Day 11 - Part 1) Plutonian Pebbles",
 	"(Day 11 - Part 2) Plutonian Pebbles",
+	"(Day 12 - Part 1) Garden Groups",
+	"(Day 12 - Part 2) Garden Groups",
 }
 
 func main() {
@@ -148,6 +151,10 @@ func runOption(option int) {
 		plutonianPebbles.RunPartOne(progressUpdater, readFile("./plutonianPebbles/input.txt")) // 218079
 	case 21:
 		plutonianPebbles.RunPartTwo(progressUpdater, readFile("./plutonianPebbles/input.txt")) // 259755538429618
+	case 22:
+		gardenGroups.RunPartOne(progressUpdater, readFile("./gardenGroups/input.txt")) // 1452678
+	case 23:
+		gardenGroups.RunPartTwo(progressUpdater, readFile("./gardenGroups/input.txt")) //
 	}
 }
 

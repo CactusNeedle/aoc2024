@@ -1,5 +1,7 @@
 package lib
 
+import "reflect"
+
 func IterateRows(grid [][]rune, process func(row int, col int, reset bool)) {
 	for row, _ := range grid {
 		reset := true
@@ -52,4 +54,32 @@ func IterateDiagonalsNorthWestToSouthEast(grid [][]rune, process func(row int, c
 			reset = false
 		}
 	}
+}
+
+func Contains(coordinates [][]int, row int, col int) bool {
+	for _, coordinate := range coordinates {
+		if coordinate[0] == row && coordinate[1] == col {
+			return true
+		}
+	}
+	return false
+}
+
+func Remove(slice1 [][]int, slice2 [][]int) [][]int {
+	isInSlice := func(slice [][]int, target []int) bool {
+		for _, s := range slice {
+			if reflect.DeepEqual(s, target) {
+				return true
+			}
+		}
+		return false
+	}
+
+	var result [][]int
+	for _, s := range slice1 {
+		if !isInSlice(slice2, s) {
+			result = append(result, s)
+		}
+	}
+	return result
 }
