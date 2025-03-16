@@ -154,7 +154,7 @@ func runOption(option int) {
 	case 22:
 		gardenGroups.RunPartOne(progressUpdater, readFile("./gardenGroups/input.txt")) // 1452678
 	case 23:
-		gardenGroups.RunPartTwo(progressUpdater, readFile("./gardenGroups/input.txt")) //
+		gardenGroups.RunPartTwo(progressUpdater, readFile("./gardenGroups/input.txt")) // ????
 	}
 }
 
